@@ -4,6 +4,11 @@ const sequelize = require("../config/db.js");
 const User = sequelize.define(
   "User",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -17,7 +22,7 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    phone_number: {
+    phoneNumber: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -25,11 +30,11 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    company_name: {
+    companyName: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    office_address: {
+    officeAddress: {
       type: DataTypes.STRING,
       allowNull: true,
     },
