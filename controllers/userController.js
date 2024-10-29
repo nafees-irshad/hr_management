@@ -1,6 +1,7 @@
 const { User } = require("../models/syncTables");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const transporter = require("../utils/emailService");
 require("dotenv").config();
 
 exports.createUser = async (req, res) => {
@@ -32,12 +33,39 @@ exports.createUser = async (req, res) => {
       position,
       companyName,
       officeAddress,
+      isVerified: false,
     });
+
     //Saving User Details
     await newUser.save();
+    // Generate verification token
+    const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Construct verification link
+    const verificationLink = `${process.env.BASE_URL}/api/users/verify-email?token=${token}`;
+
+    // Email options
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: newUser.email,
+      subject: "Verify Your Email",
+      html: `
+        <h1>Email Verification</h1>
+        <p>Hi ${newUser.name},</p>
+        <p>Please click the link below to verify your email address:</p>
+        <a href="${verificationLink}">Verify Email</a>
+        <p>This link will expire in 1 hour.</p>
+      `,
+    };
+    // Send email
+    await transporter.sendMail(mailOptions);
+
     res.status(201).json({
       status: "Success",
-      msg: "User created successfully",
+      msg: "User created successfully. Please check your email to verify your account.",
+      token: token,
     });
   } catch (err) {
     console.log(err);
