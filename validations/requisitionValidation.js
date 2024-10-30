@@ -19,8 +19,8 @@ const requisitionSchema = Joi.object({
         'string.base': `"department" should be a type of 'text'`,
         'string.max': `"department" length must be less than or equal to 100 characters long`
     }),
-    date: Joi.date().optional().messages({
-        'date.base': `"date" should be a valid date`
+    required_by: Joi.date().optional().messages({
+        'date.base': `"required_by" should be a valid date`
     }),
     reason_for_recruitment: Joi.string().max(100).optional().messages({
         'string.base': `"reason_for_recruitment" should be a type of 'text'`,
@@ -42,9 +42,10 @@ const requisitionSchema = Joi.object({
         'string.base': `"job_title" should be a type of 'text'`,
         'string.max': `"job_title" length must be less than or equal to 100 characters long`
     }),
-    employment_type: Joi.string().max(50).optional().messages({
+    employment_type: Joi.string().max(50).optional().valid("Full-time", "Part-time", "Contract").messages({
         'string.base': `"employment_type" should be a type of 'text'`,
-        'string.max': `"employment_type" length must be less than or equal to 50 characters long`
+        'string.max': `"employment_type" length must be less than or equal to 50 characters long`,
+        'any.only': `"employment_type" must be one of [Full-time, Part-time, Contract]`
     }),
     experience: Joi.string().max(50).optional().messages({
         'string.base': `"experience" should be a type of 'text'`,
@@ -76,20 +77,30 @@ const requisitionSchema = Joi.object({
         'string.base': `"recommended_approach" should be a type of 'text'`,
         'string.max': `"recommended_approach" length must be less than or equal to 100 characters long`
     }),
-    supporting_documents: Joi.object().optional().custom((value, helpers) => {
-        if (!value || typeof value !== 'object' || !value.size || !value.type) {
-            return helpers.message(`"supporting_documents" must be a valid file`);
-        }
-        return value; // Keep the value if valid
-    }).messages({
-        'object.base': `"supporting_documents" should be an object (representing a file)`,
+    supporting_documents: Joi.binary().optional().messages({
+        'binary.base': `"supporting_documents" should be a binary type`
     }),
     approval_history: Joi.string().optional().messages({
         'string.base': `"approval_history" should be a type of 'text'`
     }),
-    created_at: Joi.date().optional().messages({
-        'date.base': `"created_at" should be a valid date`
+    date_posted: Joi.date().optional().messages({
+        'date.base': `"date_posted" should be a valid date`
     }),
+    status: Joi.string().valid(
+        "ongoing",
+        "paused",
+        "in-review",
+        "to publish",
+        "cancelled",
+        "hired",
+        "denied",
+        "onboarding",
+        "closed"
+    ).required().messages({
+        'string.base': `"status" should be a type of 'text'`,
+        'any.only': `"status" must be one of [ongoing, paused, in-review, to publish, cancelled, hired, denied, onboarding, closed]`,
+        'any.required': `"status" is a required field`
+    })
 });
 
 module.exports = requisitionSchema;

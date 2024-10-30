@@ -10,28 +10,20 @@ const Requisition = sequelize.define("Requisition", {
   },
   request_id: {
     type: DataTypes.STRING(50),
-    allowNull: false, // Make this field required
-    unique: true, // Ensure request_id is unique
+    allowNull: false,
+    unique: true,
     validate: {
-      notEmpty: true, // Prevent empty strings
-      len: [1, 50], // Limit length to 1-50 characters
+      notEmpty: true,
+      len: [1, 50],
     },
   },
   submitted_by: {
     type: DataTypes.STRING(100),
-    allowNull: false, // Make this field required
-    validate: {
-      notEmpty: true,
-      isAlpha: true, // Only allow letters
-    },
+    allowNull: false,
   },
   recruiting_manager: {
     type: DataTypes.STRING(100),
     allowNull: false,
-    validate: {
-      notEmpty: true,
-      isAlpha: true, // Only allow letters
-    },
   },
   department: {
     type: DataTypes.STRING(100),
@@ -40,11 +32,11 @@ const Requisition = sequelize.define("Requisition", {
       notEmpty: true,
     },
   },
-  date: {
+  required_by: {
     type: DataTypes.DATE,
     allowNull: false,
     validate: {
-      isDate: true, // Ensure a valid date format
+      isDate: true,
     },
   },
   reason_for_recruitment: {
@@ -62,8 +54,8 @@ const Requisition = sequelize.define("Requisition", {
     type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
-      isInt: true, // Only allow integers
-      min: 1, // At least 1 vacancy
+      isInt: true,
+      min: 1,
     },
   },
   reports_to: {
@@ -85,7 +77,7 @@ const Requisition = sequelize.define("Requisition", {
     allowNull: false,
     validate: {
       notEmpty: true,
-      isIn: [["Full-time", "Part-time", "Contract"]], // Restrict to specific values
+      isIn: [["Full-time", "Part-time", "Contract"]],
     },
   },
   experience: {
@@ -135,15 +127,33 @@ const Requisition = sequelize.define("Requisition", {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  created_at: {
+  date_posted: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
     allowNull: false,
+  },
+  status: {  // New status field
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    validate: {
+      isIn: [
+        [
+          "ongoing",
+          "paused",
+          "in review",
+          "to publish",
+          "cancelled",
+          "hired",
+          "denied",
+          "onboarding",
+          "closed"
+        ]
+      ],
+    },
   },
 }, {
   tableName: 'requisitions',
   timestamps: false,
 });
-
 
 module.exports = Requisition;
