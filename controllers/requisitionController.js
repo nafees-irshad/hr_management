@@ -111,7 +111,7 @@ exports.getRequisitionsByPaused = async (req, res) => {
 exports.getRequisitionsByInReview = async (req, res) => {
   try {
       const requisitions = await Requisition.findAll({
-          where: { status: 'in-review' }
+          where: { status: 'in review' }
       });
       res.json(requisitions);
   } catch (error) {

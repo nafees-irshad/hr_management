@@ -89,7 +89,7 @@ const requisitionSchema = Joi.object({
     status: Joi.string().valid(
         "ongoing",
         "paused",
-        "in-review",
+        "in review",
         "to publish",
         "cancelled",
         "hired",
