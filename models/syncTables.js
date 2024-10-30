@@ -1,5 +1,9 @@
 const sequelize = require("../config/db.js");
 const User = require("../models/userModel.js");
+const Requisition = require("../models/requisitionModel.js");
+const HiringProcess = require("../models/hiringProcessModel.js");
+
+require("../models/associations.js"); 
 
 sequelize
   .sync({ alter: true })
@@ -10,4 +14,4 @@ sequelize
     console.error("Error syncing tables", err);
   });
 
-module.exports = { User, sequelize };
+module.exports = { User, Requisition, HiringProcess, sequelize };
