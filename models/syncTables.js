@@ -1,6 +1,7 @@
 const sequelize = require("../config/db.js");
 const User = require("../models/userModel.js");
-
+const sourcingAndScreening = require("../models/sourcingAndScreeningModel.js");
+// const questionType = require("../models/questionTypeModel.js");
 sequelize
   .sync({ alter: false })
   .then(() => {
@@ -10,4 +11,4 @@ sequelize
     console.error("Error syncing tables", err);
   });
 
-module.exports = { User, sequelize };
+module.exports = { User, sourcingAndScreening, sequelize };
