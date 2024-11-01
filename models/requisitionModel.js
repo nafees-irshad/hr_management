@@ -9,7 +9,7 @@ const Requisition = sequelize.define("Requisition", {
     primaryKey: true,
   },
   request_id: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.INTEGER,
     allowNull: false,
     unique: true,
     validate: {
@@ -124,7 +124,7 @@ const Requisition = sequelize.define("Requisition", {
     allowNull: true,
   },
   approval_history: {
-    type: DataTypes.TEXT,
+    type: DataTypes.JSON,
     allowNull: true,
   },
   date_posted: {
