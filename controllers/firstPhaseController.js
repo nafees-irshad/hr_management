@@ -58,3 +58,35 @@ exports.getFirstPhaseWithPlanningById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// PUT - Update entire FirstPhase record
+exports.updateFirstPhase = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const firstPhaseData = req.body;
+
+        const firstPhaseRecord = await FirstPhase.findByPk(id);
+        if (!firstPhaseRecord) return res.status(404).json({ message: "First phase record not found" });
+
+        await firstPhaseRecord.update(firstPhaseData);
+        res.status(200).json(firstPhaseRecord);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// PATCH - Update partial FirstPhase record
+exports.patchFirstPhase = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const firstPhaseData = req.body;
+
+        const firstPhaseRecord = await FirstPhase.findByPk(id);
+        if (!firstPhaseRecord) return res.status(404).json({ message: "First phase record not found" });
+
+        await firstPhaseRecord.update(firstPhaseData);
+        res.status(200).json(firstPhaseRecord);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

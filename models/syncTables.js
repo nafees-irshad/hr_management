@@ -11,7 +11,7 @@ const Approval = require('../models/approvalModel.js');
 require("../models/associations.js"); 
 
 sequelize
-  .sync({ alter: true, force: true })
+  .sync({ alter: true})
   .then(() => {
     console.log("All tables synced successfully");
   })
