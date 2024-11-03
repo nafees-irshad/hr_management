@@ -1,4 +1,5 @@
 const Budget = require('../models/budgetModel');
+const Planning = require('../models/planningModel'); // Assuming Planning is the parent table
 
 exports.createBudget = async (req, res) => {
     try {
@@ -41,11 +42,11 @@ exports.getBudgetWithPlanning = async (req, res) => {
     try {
         const { id } = req.params;
         const budget = await Budget.findByPk(id, {
-            include: [{ model: Planning }] // Including associated Planning data
+            include: [{ model: Planning }]
         });
-        
+
         if (!budget) {
-            return res.status(404).json({ message: "Budget record not found" });
+            return res.status(404).json({ message: "Budget not found" });
         }
 
         res.status(200).json(budget);
@@ -85,6 +86,22 @@ exports.patchBudget = async (req, res) => {
 
         const updatedBudget = await Budget.findByPk(id);
         res.status(200).json(updatedBudget);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.deleteBudget = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const budget = await Budget.findByPk(id);
+
+        if (!budget) {
+            return res.status(404).json({ message: "Budget record not found" });
+        }
+
+        await Budget.destroy({ where: { id } });
+        res.status(200).json({ message: "Budget record deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

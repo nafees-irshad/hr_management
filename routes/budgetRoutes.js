@@ -1,22 +1,28 @@
 const express = require('express');
 const budgetController = require('../controllers/budgetController');
+const authenticateUser = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-// Create budget record
-router.post('/create', budgetController.createBudget);
+// POST: Create a new budget
+router.post('/create', authenticateUser, budgetController.createBudget);
 
-// Get all budget records
-router.get('/get-all-only-budget', budgetController.getAllBudgets);
+// GET: Retrieve all budget records
+router.get('/all', authenticateUser, budgetController.getAllBudgets);
 
-// Get budget record by ID
-router.get('/get-one-only-budget/:id', budgetController.getBudgetById);
+// GET: Retrieve a specific budget by ID
+router.get('/:id', authenticateUser, budgetController.getBudgetById);
 
-// Get budget record by ID with associated planning data
-router.get('/get-one-budget-associated-planning/:id', budgetController.getBudgetWithPlanning);
+// GET: Retrieve a specific budget with associated planning data by ID
+router.get('/:id/planning', authenticateUser, budgetController.getBudgetWithPlanning);
 
-router.put('/update-one/:id', budgetController.updateBudget);
-router.patch('/update-one-partial/:id', budgetController.patchBudget);
+// PUT: Update an entire budget by ID
+router.put('/:id', authenticateUser, budgetController.updateBudget);
+
+// PATCH: Update partial fields of a budget by ID
+router.patch('/:id', authenticateUser, budgetController.patchBudget);
+
+// DELETE: Delete a specific budget by ID
+router.delete('/:id', authenticateUser, budgetController.deleteBudget);
 
 module.exports = router;
-
-//delete left

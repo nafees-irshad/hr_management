@@ -1,22 +1,28 @@
 const express = require('express');
 const approvalController = require('../controllers/approvalController');
+const authenticateUser = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-// Create approval record
-router.post('/create', approvalController.createApproval);
+// POST: Create a new approval
+router.post('/create', authenticateUser, approvalController.createApproval);
 
-// Get all approval records
-router.get('/get-all-only-approval', approvalController.getAllApprovals);
+// GET: Retrieve all approvals
+router.get('/all', authenticateUser, approvalController.getAllApprovals);
 
-// Get approval record by ID
-router.get('/get-one-only-approval/:id', approvalController.getApprovalById);
+// GET: Retrieve a specific approval by ID
+router.get('/:id', authenticateUser, approvalController.getApprovalById);
 
-// Get approval record by ID with associated planning data
-router.get('/get-one-approval-associated-planning/:id', approvalController.getApprovalWithPlanning);
+// GET: Retrieve a specific approval with associated planning data by ID
+router.get('/:id/planning', authenticateUser, approvalController.getApprovalWithPlanning);
 
-router.put('/update-one/:id', approvalController.updateApproval);
-router.patch('/update-one-partial/:id', approvalController.patchApproval);
+// PUT: Update an entire approval by ID
+router.put('/:id', authenticateUser, approvalController.updateApproval);
+
+// PATCH: Update partial fields of an approval by ID
+router.patch('/:id', authenticateUser, approvalController.patchApproval);
+
+// DELETE: Delete a specific approval by ID
+router.delete('/:id', authenticateUser, approvalController.deleteApproval);
 
 module.exports = router;
-
-//delete left

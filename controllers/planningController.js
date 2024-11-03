@@ -127,3 +127,33 @@ exports.patchPlanningWithChildren = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.deletePlanning = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const planning = await Planning.findByPk(id);
+
+        if (!planning) {
+            return res.status(404).json({ message: "Planning record not found" });
+        }
+
+        await Planning.destroy({ where: { id } });
+        res.status(200).json({ message: "Planning record deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.deleteAllPlanning = async (req, res) => {
+    try {
+        // Delete all records from the Planning table, cascading to child tables
+        await Planning.destroy({
+            where: {}, // no condition means delete all records
+            cascade: true // ensures deletion cascades to child records
+        });
+
+        res.status(200).json({ message: "All planning records and associated child records deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

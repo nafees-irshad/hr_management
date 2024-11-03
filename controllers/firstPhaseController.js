@@ -90,3 +90,20 @@ exports.patchFirstPhase = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Delete First Phase record by ID
+exports.deleteFirstPhase = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const firstPhaseRecord = await FirstPhase.findByPk(id);
+
+        if (!firstPhaseRecord) {
+            return res.status(404).json({ message: "First phase record not found" });
+        }
+
+        await firstPhaseRecord.destroy();
+        res.status(200).json({ message: "First phase record deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

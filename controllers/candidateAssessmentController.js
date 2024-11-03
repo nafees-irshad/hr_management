@@ -100,3 +100,19 @@ exports.patchCandidateAssessment = async (req, res) => {
     }
 };
 
+exports.deleteCandidateAssessment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const assessment = await CandidateAssessments.findByPk(id);
+
+        if (!assessment) {
+            return res.status(404).json({ message: "Candidate assessment record not found" });
+        }
+
+        await CandidateAssessments.destroy({ where: { id } });
+        res.status(200).json({ message: "Candidate assessment deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+

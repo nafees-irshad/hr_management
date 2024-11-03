@@ -1,4 +1,5 @@
 const Approval = require('../models/approvalModel');
+const Planning = require('../models/planningModel'); // Assuming Planning is the parent table
 
 exports.createApproval = async (req, res) => {
     try {
@@ -85,6 +86,22 @@ exports.patchApproval = async (req, res) => {
 
         const updatedApproval = await Approval.findByPk(id);
         res.status(200).json(updatedApproval);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.deleteApproval = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const approval = await Approval.findByPk(id);
+
+        if (!approval) {
+            return res.status(404).json({ message: "Approval record not found" });
+        }
+
+        await Approval.destroy({ where: { id } });
+        res.status(200).json({ message: "Approval record deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

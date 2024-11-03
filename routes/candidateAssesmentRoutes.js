@@ -1,22 +1,28 @@
 const express = require('express');
 const candidateAssessmentController = require('../controllers/candidateAssessmentController');
+const authenticateUser = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-// Route to create a candidate assessment
-router.post('/create', candidateAssessmentController.createCandidateAssessment);
+// POST: Create a new candidate assessment
+router.post('/create', authenticateUser, candidateAssessmentController.createCandidateAssessment);
 
-// Route to get all candidate assessments
-router.get('/get-all-candidate-assessment', candidateAssessmentController.getAllCandidateAssessments);
+// GET: Retrieve all candidate assessments
+router.get('/all', authenticateUser, candidateAssessmentController.getAllCandidateAssessments);
 
-// Route to get a specific candidate assessment by ID
-router.get('/get-one-candidate-assessment/:id', candidateAssessmentController.getCandidateAssessmentById);
+// GET: Retrieve a specific candidate assessment by ID
+router.get('/:id', authenticateUser, candidateAssessmentController.getCandidateAssessmentById);
 
-// Route to get a candidate assessment by ID with associated planning data
-router.get('/get-one-candidate-assessment-associated-planning/:id', candidateAssessmentController.getCandidateAssessmentWithPlanning);
+// GET: Retrieve a specific candidate assessment with associated planning data by ID
+router.get('/:id/planning', authenticateUser, candidateAssessmentController.getCandidateAssessmentWithPlanning);
 
-router.put('/update-one/:id', candidateAssessmentController.updateCandidateAssessment);
-router.patch('/update-one-partial/:id', candidateAssessmentController.patchCandidateAssessment);
+// PUT: Update an entire candidate assessment by ID
+router.put('/:id', authenticateUser, candidateAssessmentController.updateCandidateAssessment);
+
+// PATCH: Update partial fields of a candidate assessment by ID
+router.patch('/:id', authenticateUser, candidateAssessmentController.patchCandidateAssessment);
+
+// DELETE: Delete a specific candidate assessment by ID
+router.delete('/:id', authenticateUser, candidateAssessmentController.deleteCandidateAssessment);
 
 module.exports = router;
-
-//delete left
