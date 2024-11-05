@@ -3,8 +3,8 @@ const Users = require("./userModel");
 const HiringProcess = require("./hiringProcessModel");
 const sequelize = require("../config/db.js");
 
-const sourcingAndScreening = sequelize.define(
-  "sourcingAndScreening",
+const InterviewAndSelection = sequelize.define(
+  "InterviewAndSelection",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -39,7 +39,7 @@ const sourcingAndScreening = sequelize.define(
         "Date",
         "Yes/No",
         "Dropdwn",
-        "Multiple choice",
+        "Multiple Choice",
       ],
       allowNull: false,
     },
@@ -53,9 +53,9 @@ const sourcingAndScreening = sequelize.define(
     },
   },
   {
-    tableName: "sourcingAndScreening",
+    tableName: "InterviewAndSelection",
     timestamps: false,
   }
 );
 
-module.exports = sourcingAndScreening;
+module.exports = InterviewAndSelection;

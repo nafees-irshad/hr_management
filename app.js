@@ -5,17 +5,37 @@ require("dotenv").config();
 const userRoutes = require("./routes/userRoutes.js");
 //SourcingAndScreening routes
 const sourcingAndScreeningRoutes = require("./routes/sourcingAndScreeningRoutes.js");
+//requisition Routes
+const requisitionRoutes = require("./routes/requisitionRoutes.js");
+//hiringProcessRoutes
+const hiringProcessRoutes = require("./routes/hiringProcessRoutes");
+
+//InterviewAndSelection routes
+const interviewAndSelectionRoutes = require("./routes/interviewAndSelectionRoutes.js");
+
+//hiring routes
+const hiringRoutes = require("./routes/hiringRoutes.js");
 
 const app = express();
 
 // Middleware for parsing JSON
 app.use(express.json());
 
-//user routes
+//use user routes
 app.use("/api/user", userRoutes);
+
+//routes
+app.use("/api/requisitions", requisitionRoutes);
+app.use("/api/hiring-processes", hiringProcessRoutes);
 
 //use SourcingAndScreening
 app.use("/api/sourcing-and-screening", sourcingAndScreeningRoutes);
+
+//use InterviewAndSelection
+app.use("/api/Interview-and-selection", interviewAndSelectionRoutes);
+
+//use hiring routes
+app.use("/api/hiring", hiringRoutes);
 
 const PORT = process.env.PORT;
 
