@@ -1,4 +1,4 @@
-const { User } = require("../models/syncTables");
+const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const transporter = require("../utils/emailService");

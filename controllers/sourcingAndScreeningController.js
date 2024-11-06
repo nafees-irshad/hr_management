@@ -1,5 +1,4 @@
-const { SourcingAndScreening } = require("../models/syncTables");
-// const { questionType } = require("../models/syncTables");
+const SourcingAndScreening = require("../models/sourcingAndScreeningModel");
 
 exports.startSourcingAndScreening = async (req, res) => {
   const { jobId, question, questionType, questionData, preferredAnswer } =

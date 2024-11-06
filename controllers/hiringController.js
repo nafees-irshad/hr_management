@@ -1,5 +1,4 @@
-const { Hiring } = require("../models/syncTables");
-// const Hiring = require("../models/hiredModel");
+const { Hiring } = require("../models/hiredModel");
 
 exports.offerLetter = async (req, res) => {
   // const data = req.body;

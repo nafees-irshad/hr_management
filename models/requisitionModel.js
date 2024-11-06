@@ -1,163 +1,224 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.js");
+const User = require("../models/userModel.js");
 const HiringProcess = require("../models/hiringProcessModel.js");
+const BudgetaryImpact = require("../models/budgetaryImpactModel.js");
+const budgetaryImpact = require("../models/budgetaryImpactModel.js");
+const FirstPhase = require("../models/firstPhaseModel.js");
+const CandidateAssesment = require("../models/candidateAssesmentModel.js");
+const Interview = require("../models/interviewModel.js");
+const Budget = require("../models/budgetModel.js");
+const Approval = require("../models/approvalModel.js");
+const Planning = require("../models/planningModel.js");
+const Screening = require("../models/screeningModel.js");
+const PhoneInterview = require("../models/phoneInterviewsModel.js");
+const programmingtest = require("../models/phoneInterviewsModel.js");
+const panelInterview = require("../models/panelInterviewModel.js");
 
 const Requisition = sequelize.define(
   "Requisition",
   {
-    requisition_id: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    request_id: {
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
+      },
+    },
+    requestId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
-      validate: {
-        notEmpty: true,
-        len: [1, 50],
-      },
     },
-    submitted_by: {
+    submittedBy: {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    recruiting_manager: {
-      type: DataTypes.STRING(100),
+    jobTitle: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    employmentType: {
+      type: DataTypes.ENUM("Full-time", "Part-time", "Contract", "Internship"),
+      allowNull: false,
+    },
+    justification: {
+      type: DataTypes.STRING(600),
+      allowNull: false,
+    },
+    recruitingManager: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     department: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
     },
     date: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    required_by: {
-      type: DataTypes.DATE,
+    resasonOfRecruitment: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isDate: true,
-      },
     },
-    reason_for_recruitment: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    business_need: {
-      type: DataTypes.TEXT,
+    businessNeed: {
+      type: DataTypes.STRING(600),
       allowNull: true,
     },
-    no_of_vacancies: {
+    noOfVacancies: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        isInt: true,
-        min: 1,
-      },
     },
-    reports_to: {
-      type: DataTypes.STRING(100),
+    reportsTo: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    job_title: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    employment_type: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-        isIn: [["Full-time", "Part-time", "Contract"]],
-      },
     },
     experience: {
-      type: DataTypes.STRING(50),
-      allowNull: true,
-      validate: {
-        len: [1, 50],
-      },
-    },
-    justification: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     responsibilities: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+      type: DataTypes.STRING(600),
+      allowNull: false,
     },
     skills: {
       type: DataTypes.JSON,
-      allowNull: true,
+      allowNull: false,
     },
     education: {
-      type: DataTypes.STRING(100),
-      allowNull: true,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    work_experience: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+    workExperience: {
+      type: DataTypes.STRING(600),
+      allowNull: false,
     },
-    skills_qualifications: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+    skillsQualifications: {
+      type: DataTypes.STRING(600),
+      allowNull: false,
     },
-    budgetary_impact: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    recommended_approach: {
-      type: DataTypes.STRING(100),
-      allowNull: true,
-    },
-    supporting_documents: {
-      type: DataTypes.BLOB,
-      allowNull: true,
-    },
-    approval_history: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    date_posted: {
+    salarySlipOfEmployee: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       allowNull: false,
     },
-    status: {
-      // New status field
-      type: DataTypes.STRING(20),
+    designation: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isIn: [
-          [
-            "ongoing",
-            "paused",
-            "in review",
-            "to publish",
-            "cancelled",
-            "hired",
-            "denied",
-            "onboarding",
-            "closed",
-          ],
-        ],
+    },
+    budgetaryImpact: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: budgetaryImpact,
+        key: "id",
       },
+      allowNull: false,
+    },
+    recommendedApproaches: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    supportingDocuments: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    requestBy: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
+    reviewdBy: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
+    approvedBy: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
+    firstPhase: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: FirstPhase,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    candidateAssesment: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: CandidateAssesment,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    interview: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Interview,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    budget: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Budget,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    approval: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Approval,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    planning: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Planning,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    screening: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Screening,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    phoneInterview: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: PhoneInterview,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    programmingtest: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: ProgrammingTest,
+        key: "id",
+      },
+      allowNull: false,
+    },
+    panelInterview: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: PanelInterview,
+        key: "id",
+      },
+      allowNull: false,
     },
   },
   {

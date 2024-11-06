@@ -2,8 +2,11 @@ const express = require("express");
 const router = express.Router();
 const requisitionController = require("../controllers/requisitionController.js");
 
+// Middleware for authentication
+const authenticate = require("../middleware/authMiddleware.js");
+
 // Create a new requisition
-router.post("/create", requisitionController.createRequisition);
+router.post("/create", authenticate, requisitionController.createRequisition);
 
 // Get all requisitions
 router.get("/get-all", requisitionController.getAllRequisitions);
@@ -27,11 +30,23 @@ router.delete("/delete-all", requisitionController.deleteAllRequisitions);
 router.get("/status/hired", requisitionController.getRequisitionsByHired);
 router.get("/status/ongoing", requisitionController.getRequisitionsByOngoing);
 router.get("/status/paused", requisitionController.getRequisitionsByPaused);
-router.get("/status/in-review", requisitionController.getRequisitionsByInReview);
-router.get("/status/to-publish", requisitionController.getRequisitionsByToPublish);
-router.get("/status/cancelled", requisitionController.getRequisitionsByCancelled);
+router.get(
+  "/status/in-review",
+  requisitionController.getRequisitionsByInReview
+);
+router.get(
+  "/status/to-publish",
+  requisitionController.getRequisitionsByToPublish
+);
+router.get(
+  "/status/cancelled",
+  requisitionController.getRequisitionsByCancelled
+);
 router.get("/status/denied", requisitionController.getRequisitionsByDenied);
-router.get("/status/onboarding", requisitionController.getRequisitionsByOnboarding);
+router.get(
+  "/status/onboarding",
+  requisitionController.getRequisitionsByOnboarding
+);
 router.get("/status/closed", requisitionController.getRequisitionsByClosed);
 
 module.exports = router;

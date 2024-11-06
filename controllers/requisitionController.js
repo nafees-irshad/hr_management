@@ -1,7 +1,7 @@
 const { Transaction } = require("sequelize");
 const Requisition = require("../models/requisitionModel.js");
 const HiringProcess = require("../models/hiringProcessModel.js");
-const requisitionSchema = require("../validations/requisitionValidation.js"); 
+const requisitionSchema = require("../validations/requisitionValidation.js");
 const sequelize = require("../config/db.js");
 
 // Utility function for consistent responses
@@ -13,32 +13,37 @@ const responseHandler = (res, status, data, message = null) => {
 exports.createRequisition = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
-      // Validate the request body
-      const { error } = requisitionSchema.validate(req.body);
-      if (error) {
-          return responseHandler(res, 400, null, `Validation Error: ${error.details[0].message}`);
-      }
+    // Validate the request body
+    const { error } = requisitionSchema.validate(req.body);
+    if (error) {
+      return responseHandler(
+        res,
+        400,
+        null,
+        `Validation Error: ${error.details[0].message}`
+      );
+    }
 
-      const { request_id } = req.body;
+    const { request_id } = req.body;
 
-      // Check if a requisition with the same request_id already exists
-      const existingRequisition = await Requisition.findOne({
-          where: { request_id },
-          transaction,
-      });
+    // Check if a requisition with the same request_id already exists
+    const existingRequisition = await Requisition.findOne({
+      where: { request_id },
+      transaction,
+    });
 
-      if (existingRequisition) {
-          return responseHandler(res, 400, null, "Request ID must be unique");
-      }
+    if (existingRequisition) {
+      return responseHandler(res, 400, null, "Request ID must be unique");
+    }
 
-      // Create a new requisition within a transaction
-      const requisition = await Requisition.create(req.body, { transaction });
-      await transaction.commit();
-      responseHandler(res, 201, requisition, "Requisition created successfully");
+    // Create a new requisition within a transaction
+    const requisition = await Requisition.create(req.body, { transaction });
+    await transaction.commit();
+    responseHandler(res, 201, requisition, "Requisition created successfully");
   } catch (error) {
-      await transaction.rollback();
-      console.error("Error creating requisition:", error);
-      responseHandler(res, 500, null, "Error creating requisition");
+    await transaction.rollback();
+    console.error("Error creating requisition:", error);
+    responseHandler(res, 500, null, "Error creating requisition");
   }
 };
 
@@ -60,159 +65,194 @@ exports.getRequisitionById = async (req, res) => {
     if (!requisition) {
       return responseHandler(res, 404, null, "Requisition not found");
     }
-    responseHandler(res, 200, requisition, `Fetched requisition by ID: ${req.params.id}`);
+    responseHandler(
+      res,
+      200,
+      requisition,
+      `Fetched requisition by ID: ${req.params.id}`
+    );
   } catch (error) {
     console.error("Error fetching requisition:", error);
     responseHandler(res, 500, null, "Error fetching requisition");
   }
 };
 
-
 // Get requisitions by hired status
 exports.getRequisitionsByHired = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'hired' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "hired" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'hired':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'hired':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by ongoing status
 exports.getRequisitionsByOngoing = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'ongoing' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "ongoing" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'ongoing':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'ongoing':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by paused status
 exports.getRequisitionsByPaused = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'paused' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "paused" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'paused':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'paused':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by in-review status
 exports.getRequisitionsByInReview = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'in review' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "in review" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'in-review':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'in-review':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by to-publish status
 exports.getRequisitionsByToPublish = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'to publish' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "to publish" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'to publish':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'to publish':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by cancelled status
 exports.getRequisitionsByCancelled = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'cancelled' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "cancelled" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'cancelled':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'cancelled':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by denied status
 exports.getRequisitionsByDenied = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'denied' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "denied" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'denied':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'denied':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by onboarding status
 exports.getRequisitionsByOnboarding = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'onboarding' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "onboarding" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'onboarding':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'onboarding':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
 
 // Get requisitions by closed status
 exports.getRequisitionsByClosed = async (req, res) => {
   try {
-      const requisitions = await Requisition.findAll({
-          where: { status: 'closed' }
-      });
-      res.json(requisitions);
+    const requisitions = await Requisition.findAll({
+      where: { status: "closed" },
+    });
+    res.json(requisitions);
   } catch (error) {
-      console.error("Error fetching requisitions by status 'closed':", error);
-      res.status(500).json({ error: "An error occurred while fetching requisitions." });
+    console.error("Error fetching requisitions by status 'closed':", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching requisitions." });
   }
 };
-
 
 // Update a requisition by ID
 exports.updateRequisition = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
-      // Validate the request body
-      const { error } = requisitionSchema.validate(req.body, { allowUnknown: true }); // Allow unknown keys
-      if (error) {
-          return responseHandler(res, 400, null, `Validation Error: ${error.details[0].message}`);
-      }
+    // Validate the request body
+    const { error } = requisitionSchema.validate(req.body, {
+      allowUnknown: true,
+    }); // Allow unknown keys
+    if (error) {
+      return responseHandler(
+        res,
+        400,
+        null,
+        `Validation Error: ${error.details[0].message}`
+      );
+    }
 
-      const [updated] = await Requisition.update(req.body, {
-          where: { requisition_id: req.params.id },
-          transaction,
-      });
+    const [updated] = await Requisition.update(req.body, {
+      where: { requisition_id: req.params.id },
+      transaction,
+    });
 
-      if (!updated) {
-          await transaction.rollback();
-          return responseHandler(res, 404, null, "Requisition not found");
-      }
-
-      const updatedRequisition = await Requisition.findByPk(req.params.id, { transaction });
-      await transaction.commit();
-      responseHandler(res, 200, updatedRequisition, `Requisition updated successfully for ID: ${req.params.id}`);
-  } catch (error) {
+    if (!updated) {
       await transaction.rollback();
-      console.error("Error updating requisition:", error);
-      responseHandler(res, 500, null, "Error updating requisition");
+      return responseHandler(res, 404, null, "Requisition not found");
+    }
+
+    const updatedRequisition = await Requisition.findByPk(req.params.id, {
+      transaction,
+    });
+    await transaction.commit();
+    responseHandler(
+      res,
+      200,
+      updatedRequisition,
+      `Requisition updated successfully for ID: ${req.params.id}`
+    );
+  } catch (error) {
+    await transaction.rollback();
+    console.error("Error updating requisition:", error);
+    responseHandler(res, 500, null, "Error updating requisition");
   }
 };
 
@@ -231,9 +271,16 @@ exports.patchRequisition = async (req, res) => {
       return responseHandler(res, 404, null, "Requisition not found");
     }
 
-    const updatedRequisition = await Requisition.findByPk(req.params.id, { transaction });
+    const updatedRequisition = await Requisition.findByPk(req.params.id, {
+      transaction,
+    });
     await transaction.commit();
-    responseHandler(res, 200, updatedRequisition, "Requisition partially updated");
+    responseHandler(
+      res,
+      200,
+      updatedRequisition,
+      "Requisition partially updated"
+    );
   } catch (error) {
     await transaction.rollback();
     console.error("Error updating requisition:", error);
@@ -246,7 +293,9 @@ exports.deleteRequisition = async (req, res) => {
   const transaction = await sequelize.transaction();
   try {
     // Find the requisition to delete
-    const requisition = await Requisition.findByPk(req.params.id, { transaction });
+    const requisition = await Requisition.findByPk(req.params.id, {
+      transaction,
+    });
     if (!requisition) {
       return responseHandler(res, 404, null, "Requisition not found");
     }
@@ -276,7 +325,12 @@ exports.deleteRequisition = async (req, res) => {
     }
 
     await transaction.commit();
-    return responseHandler(res, 204, null, `Requisition and associated hiring processes deleted successfully for ID: ${req.params.id}`);
+    return responseHandler(
+      res,
+      204,
+      null,
+      `Requisition and associated hiring processes deleted successfully for ID: ${req.params.id}`
+    );
   } catch (error) {
     await transaction.rollback();
     console.error("Error deleting requisition:", error);
@@ -309,11 +363,15 @@ exports.deleteAllRequisitions = async (req, res) => {
     });
 
     await transaction.commit();
-    return responseHandler(res, 200, null, "All requisitions and associated hiring processes deleted successfully");
+    return responseHandler(
+      res,
+      200,
+      null,
+      "All requisitions and associated hiring processes deleted successfully"
+    );
   } catch (error) {
     await transaction.rollback();
     console.error("Error deleting all requisitions:", error);
     return responseHandler(res, 500, null, "Error deleting all requisitions");
   }
 };
-

@@ -1,7 +1,7 @@
 // Load environment variables from .env file
-require('dotenv').config();
+require("dotenv").config();
 
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 // Create a new Sequelize instance
 const sequelize = new Sequelize(
@@ -11,7 +11,13 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'mysql',
+    dialect: "mssql",
+    dialectOptions: {
+      options: {
+        encrypt: true, // Enable encryption
+        trustServerCertificate: true, // Allow self-signed certificates
+      },
+    },
   }
 );
 
@@ -19,9 +25,9 @@ const sequelize = new Sequelize(
 async function testConnection() {
   try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+    console.log("Connection has been established successfully.");
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.error("Unable to connect to the database:", error);
   }
 }
 
