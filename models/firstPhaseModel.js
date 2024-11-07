@@ -1,9 +1,9 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.js");
 const User = require("../models/userModel.js");
-const Requisition = require("../models/requisitionModel.js");
+// const Requisition = require("../models/requisitionModel.js");
 
-const FirstPhase = sequelize(
+const FirstPhase = sequelize.define(
   "FirstPhase",
   {
     id: {
@@ -18,14 +18,14 @@ const FirstPhase = sequelize(
         key: "id",
       },
     },
-    requisitionId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Requisition,
-        key: "id",
-      },
-      allowNull: false,
-    },
+    // requisitionId: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: Requisition,
+    //     key: "id",
+    //   },
+    //   allowNull: false,
+    // },
     sourcingMethod: {
       type: DataTypes.JSON,
       allowNull: false,

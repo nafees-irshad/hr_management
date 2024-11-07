@@ -44,7 +44,7 @@ const OnBoardingProcess = sequelize.define(
   },
   {
     tableName: "onBoardingProcess",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

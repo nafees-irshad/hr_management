@@ -1,22 +1,23 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.js");
-const Requisition = require("../models/requisitionModel.js");
-const budgetaryImpact = sequelize.define(
-  "budgetaryImpact",
+// const Requisition = require("../models/requisitionModel.js");
+
+const BudgetaryImpact = sequelize.define(
+  "BudgetaryImpact",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    requisitionId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Requisition,
-        key: "id",
-      },
-      allowNull: false,
-    },
+    // requisitionId: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: Requisition,
+    //     key: "id",
+    //   },
+    //   allowNull: false,
+    // },
     salaryHead: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -32,4 +33,4 @@ const budgetaryImpact = sequelize.define(
   }
 );
 
-module.exports = budgetaryImpact;
+module.exports = BudgetaryImpact;

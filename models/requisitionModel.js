@@ -1,9 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.js");
 const User = require("../models/userModel.js");
-const HiringProcess = require("../models/hiringProcessModel.js");
 const BudgetaryImpact = require("../models/budgetaryImpactModel.js");
-const budgetaryImpact = require("../models/budgetaryImpactModel.js");
 const FirstPhase = require("../models/firstPhaseModel.js");
 const CandidateAssesment = require("../models/candidateAssesmentModel.js");
 const Interview = require("../models/interviewModel.js");
@@ -12,8 +10,8 @@ const Approval = require("../models/approvalModel.js");
 const Planning = require("../models/planningModel.js");
 const Screening = require("../models/screeningModel.js");
 const PhoneInterview = require("../models/phoneInterviewsModel.js");
-const programmingtest = require("../models/phoneInterviewsModel.js");
-const panelInterview = require("../models/panelInterviewModel.js");
+const Programmingtest = require("../models/programmingTestModel.js");
+const PanelInterview = require("../models/panelInterviewModel.js");
 
 const Requisition = sequelize.define(
   "Requisition",
@@ -115,7 +113,7 @@ const Requisition = sequelize.define(
     budgetaryImpact: {
       type: DataTypes.INTEGER,
       references: {
-        model: budgetaryImpact,
+        model: BudgetaryImpact,
         key: "id",
       },
       allowNull: false,
@@ -204,10 +202,10 @@ const Requisition = sequelize.define(
       },
       allowNull: false,
     },
-    programmingtest: {
+    Programmingtest: {
       type: DataTypes.INTEGER,
       references: {
-        model: ProgrammingTest,
+        model: Programmingtest,
         key: "id",
       },
       allowNull: false,

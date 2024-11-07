@@ -44,7 +44,7 @@ const OneToOneInterview = sequelize.define(
   },
   {
     tableName: "oneToOneInterview",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

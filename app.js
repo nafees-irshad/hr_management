@@ -13,9 +13,6 @@ const hiringProcessRoutes = require("./routes/hiringProcessRoutes");
 //InterviewAndSelection routes
 const interviewAndSelectionRoutes = require("./routes/interviewAndSelectionRoutes.js");
 
-//hiring routes
-const hiringRoutes = require("./routes/hiringRoutes.js");
-
 const app = express();
 
 // Middleware for parsing JSON
@@ -33,9 +30,6 @@ app.use("/api/sourcing-and-screening", sourcingAndScreeningRoutes);
 
 //use InterviewAndSelection
 app.use("/api/Interview-and-selection", interviewAndSelectionRoutes);
-
-//use hiring routes
-app.use("/api/hiring", hiringRoutes);
 
 const PORT = process.env.PORT;
 

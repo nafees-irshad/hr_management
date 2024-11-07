@@ -44,7 +44,7 @@ const OfferAcceptancePeriod = sequelize.define(
   },
   {
     tableName: "offerAcceptancePeriod",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

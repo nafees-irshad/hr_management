@@ -1,7 +1,6 @@
 const { Transaction } = require("sequelize");
 const Requisition = require("../models/requisitionModel.js");
 const HiringProcess = require("../models/hiringProcessModel.js");
-const requisitionSchema = require("../validations/requisitionValidation.js");
 const sequelize = require("../config/db.js");
 
 // Utility function for consistent responses

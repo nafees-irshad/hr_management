@@ -44,7 +44,7 @@ const ContractSigning = sequelize.define(
   },
   {
     tableName: "contractSigning",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

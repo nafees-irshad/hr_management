@@ -44,7 +44,7 @@ const PresentOffer = sequelize.define(
   },
   {
     tableName: "presentOffer",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db.js");
 const User = require("./userModel.js");
-const Requisition = require("./requisitionModel.js");
+// const Requisition = require("./requisitionModel.js");
 
 const PanelInterview = sequelize.define(
   "PanelInterview",
@@ -11,13 +11,13 @@ const PanelInterview = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    requisitionId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Requisition,
-        key: "id",
-      },
-    },
+    // requisitionId: {
+    //   type: DataTypes.INTEGER,
+    //   references: {
+    //     model: Requisition,
+    //     key: "id",
+    //   },
+    // },
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -44,7 +44,7 @@ const PanelInterview = sequelize.define(
   },
   {
     tableName: "panelInterview",
-    timestamps: true,
+    timestamps: false,
   }
 );
 

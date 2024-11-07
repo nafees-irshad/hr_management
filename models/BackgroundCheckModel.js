@@ -44,7 +44,7 @@ const BackgroundCheck = sequelize.define(
   },
   {
     tableName: "backgroundCheck",
-    timestamps: true,
+    timestamps: false,
   }
 );
 
