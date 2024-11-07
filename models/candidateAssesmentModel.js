@@ -18,11 +18,6 @@ const CandidateAssesment = sequelize.define(
         key: "id",
       },
     },
-    requestId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true,
-    },
     testName: {
       type: DataTypes.STRING,
       allowNull: false,
