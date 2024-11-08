@@ -1,39 +1,42 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/db.js");
-const User = require("./userModel.js");
-const Requisition = require("./requisitionModel.js");
+/** @format */
+
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db.js');
+const User = require('./userModel.js');
 
 const Comments = sequelize.define(
-  "Comments",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    requisitionId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Requisition,
-        key: "id",
-      },
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: User,
-        key: "id",
-      },
-    },
-    comment: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  },
-  {
-    tableName: "comments",
-    timestamps: false,
-  }
+	'Comments',
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		},
+
+		userId: {
+			type: DataTypes.INTEGER,
+			references: {
+				model: User,
+				key: 'id',
+			},
+		},
+		requisitionId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'Requisitions',
+				key: 'id',
+			},
+		},
+		comment: {
+			type: DataTypes.STRING,
+			allowNull: true,
+		},
+	},
+	{
+		tableName: 'comments',
+		timestamps: true,
+	}
 );
 
 module.exports = Comments;

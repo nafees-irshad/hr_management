@@ -1,0 +1,19 @@
+{
+  "sqltools.connections": [
+    {
+      "mssqlOptions": {
+        "appName": "SQLTools",
+        "useUTC": true,
+        "encrypt": true
+      },
+      "previewLimit": 50,
+      "server": "DESKTOP-6HST7O2",
+      "port": 1433,
+      "driver": "MSSQL",
+      "name": "newconnection",
+      "database": "hr_management",
+      "username": "root1",
+      "password": "Divaro"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
     "username": "root1",
     "password": "Divaro",
     "database": "hr_management",
-    "host": "localhost",
+    "host": "DESKTOP-6HST7O2",
     "dialect": "mssql"
   },
   "test": {
